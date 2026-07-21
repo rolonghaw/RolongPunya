@@ -1,3 +1,4 @@
+import qrcode from 'qrcode-terminal'
 import { Boom } from '@hapi/boom'
 import NodeCache from '@cacheable/node-cache'
 import readline from 'readline'
@@ -85,13 +86,20 @@ const startSock = async() => {
 				}
 
 				if (qr) {
-					// Pairing code for Web clients
-					if (usePairingCode && !sock.authState.creds.registered) {
-						const phoneNumber = await question('Please enter your phone number:\n')
-						const code = await sock.requestPairingCode(phoneNumber)
-						console.log(`Pairing code: ${code}`)
-					}
-				}
+        qrcode.generate(qr, { small: true })
+    }
+    // ---------------------------
+
+    if (connection === 'close') {
+        const shouldReconnect = (lastDisconnect?.error as Boom)?.output?.statusCode !== DisconnectReason.loggedOut
+        console.log('connection closed due to ', lastDisconnect?.error, ', reconnecting ', shouldReconnect)
+        if (shouldReconnect) {
+            connectToWhatsApp()
+        }
+    } else if (connection === 'open') {
+        console.log('opened connection')
+    }
+})
 
 				logger.debug(update, 'connection update')
 			}
