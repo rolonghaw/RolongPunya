@@ -22,7 +22,7 @@ const logger = P({
     ],
   },
 })
-logger.level = 'trace'
+logger.level = 'info'
 
 const doReplies = process.argv.includes('--do-reply')
 const usePairingCode = true
