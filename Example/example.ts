@@ -99,7 +99,7 @@ const startSock = async() => {
     } else if (connection === 'open') {
         console.log('opened connection')
     }
-})
+}
 
 				logger.debug(update, 'connection update')
 			}
