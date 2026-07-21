@@ -86,6 +86,7 @@ const startSock = async() => {
 				}
 
 				if (qr) {
+            qrcode.generate(qr, { small: true })
         qrcode.generate(qr, { small: true })
     }
     // ---------------------------
