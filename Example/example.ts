@@ -86,9 +86,14 @@ const startSock = async() => {
 				}
 
 				if (qr) {
-            qrcode.generate(qr, { small: true })
-        qrcode.generate(qr, { small: true })
-    }
+    // Cetak URL gambar QR yang bisa langsung diklik/dibuka dari browser HP
+    const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qr)}`
+    console.log('\n==================================================')
+    console.log('SCAN QR BUKA LINK INI DI BROWSER:')
+    console.log(qrImageUrl)
+    console.log('==================================================\n')
+}
+
     // ---------------------------
 
     if (connection === 'close') {
