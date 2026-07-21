@@ -25,7 +25,7 @@ const logger = P({
 logger.level = 'trace'
 
 const doReplies = process.argv.includes('--do-reply')
-const usePairingCode = process.argv.includes('--use-pairing-code')
+const usePairingCode = true
 
 // external map to store retry counts of messages when decryption/encryption fails
 // keep this out of the socket itself, so as to prevent a message decryption/encryption loop across socket restarts
@@ -86,13 +86,16 @@ const startSock = async() => {
 				}
 
 				if (qr) {
-    // Cetak URL gambar QR yang bisa langsung diklik/dibuka dari browser HP
-    const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qr)}`
-    console.log('\n==================================================')
-    console.log('SCAN QR BUKA LINK INI DI BROWSER:')
-    console.log(qrImageUrl)
-    console.log('==================================================\n')
+    if (usePairingCode && !sock.authState.creds.registered) {
+        // Ganti dengan nomor WhatsApp kamu (awali dengan 62)
+        const phoneNumber = '6285959863111' 
+        const code = await sock.requestPairingCode(phoneNumber)
+        console.log('\n==================================')
+        console.log(`KODE PAIRING KAMU: ${code}`)
+        console.log('==================================\n')
+    }
 }
+
 
     // ---------------------------
 
